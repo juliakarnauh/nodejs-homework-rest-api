@@ -9,7 +9,7 @@ router.get("/", contactsController.listContacts);
 router.get("/:contactId", isValidId, contactsController.getContactById);
 router.post("/", isBodyEmpty, contactsValidation.validateAddContact, contactsController.addContact);
 router.delete("/:contactId", isValidId,  contactsController.deleteContact);
-router.patch("/:contactId/favorite", isValidId, isBodyEmpty, contactsValidation.validateUpdateFavorite, contactsController.updateFavoriteContact);
+router.patch("/:contactId/favorite", isValidId, contactsValidation.validateUpdateFavorite, contactsController.updateFavoriteContact);
 router.put("/:contactId", isValidId, isBodyEmpty, contactsValidation.validateUpdateContact, contactsController.updateContact);
 
 module.exports = router;

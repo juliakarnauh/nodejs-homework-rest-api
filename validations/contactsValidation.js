@@ -36,7 +36,7 @@ exports.validateUpdateContact = (req, res, next) => {
 exports.validateUpdateFavorite = (req, res, next) => {
   const { error } = contactUpdateFavoriteSchema.validate(req.body);
   if (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: "missing field favorite" });
   } else {
     next();
   }
