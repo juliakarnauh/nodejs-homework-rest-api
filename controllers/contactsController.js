@@ -1,8 +1,8 @@
-const contactsService = require("../models/contacts");
+const Contact = require("../models/contact");
 
 exports.listContacts = async (req, res, next) => {
   try {
-    const contacts = await contactsService.listContacts();
+    const contacts = await Contact.find();
     res.status(200).json(contacts);
   } catch (error) {
     next(error);
@@ -12,7 +12,7 @@ exports.listContacts = async (req, res, next) => {
 exports.getContactById = async (req, res, next) => {
   try {
     const { contactId } = req.params;
-    const contact = await contactsService.getContactById(contactId);
+    const contact = await Contact.findById(contactId);
     if (contact) {
       res.status(200).json(contact);
     } else {
@@ -25,7 +25,7 @@ exports.getContactById = async (req, res, next) => {
 
 exports.addContact = async (req, res, next) => {
   try {
-    const result = await contactsService.addContact(req.body);
+    const result = await Contact.create(req.body);
     res.status(201).json(result);
   } catch (error) {
     next(error);
@@ -35,7 +35,7 @@ exports.addContact = async (req, res, next) => {
 exports.deleteContact = async (req, res, next) => {
   try {
     const { contactId } = req.params;
-    const result = await contactsService.removeContact(contactId);
+    const result = await Contact.findByIdAndRemove(contactId);
     if (result) {
       res.status(200).json({ message: "Contact deleted" });
     } else {
@@ -45,11 +45,27 @@ exports.deleteContact = async (req, res, next) => {
     next(error);
   }
 };
-
+exports.updateFavoriteContact = async (req, res, next) => {
+  try {
+    const { contactId } = req.params;
+    const { favorite } = req.body;
+    if (!req.body) {
+      return res.status(400).json({ message: "missing field favorite" });
+    }
+    const result = await Contact.findByIdAndUpdate(contactId, { favorite });
+    if (result) {
+      return res.status(200).json(result);
+    } else {
+      return res.status(404).json({ message: "Not found" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
 exports.updateContact = async (req, res, next) => {
   try {
     const { contactId } = req.params;
-    const result = await contactsService.updateContact(contactId, req.body);
+    const result = await Contact.findByIdAndUpdate(contactId, req.body);
     if (result) {
       res.status(200).json(result);
     } else {
