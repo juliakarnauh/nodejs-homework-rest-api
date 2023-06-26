@@ -16,8 +16,10 @@ exports.register = async (req, res) => {
     const hashPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({ email, password: hashPassword });
     res.status(201).json({
-      email: newUser.email,
-      subscription: newUser.subscription,
+      user: {
+        email: newUser.email,
+        subscription: newUser.subscription,
+      },
     });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
