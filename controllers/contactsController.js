@@ -2,7 +2,8 @@ const Contact = require("../models/contact");
 
 exports.listContacts = async (req, res, next) => {
   try {
-    const contacts = await Contact.find();
+    const {_id: owner} = req.user;
+    const contacts = await Contact.find({owner});
     res.status(200).json(contacts);
   } catch (error) {
     next(error);
@@ -25,7 +26,8 @@ exports.getContactById = async (req, res, next) => {
 
 exports.addContact = async (req, res, next) => {
   try {
-    const result = await Contact.create(req.body);
+    const {_id: owner} = req.user;
+    const result = await Contact.create({...req.body, owner});
     res.status(201).json(result);
   } catch (error) {
     next(error);
