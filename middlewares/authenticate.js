@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const { SECRET_KEY } = process.env;
-const {HttpError} = require("../helpers/HttpError");
+const HttpError = require("../helpers/HttpError");
 const authenticate = async (req, res, next)=> {
     const {authorization = ""} = req.headers;
     const [bearer, token] = authorization.split(" ");
@@ -18,7 +18,7 @@ const authenticate = async (req, res, next)=> {
         next();
     }
     catch {
-        next(HttpError(401))
+        next(HttpError(401));
     }
 }
 

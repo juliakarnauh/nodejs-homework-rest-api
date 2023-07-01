@@ -1,5 +1,5 @@
 const messagesList = {
-    401:  "Not authorized"
+    401: "Not authorized",
 }
 
 const HttpError = (status, message = messagesList[status]) => {
