@@ -4,7 +4,8 @@ const contactsController = require("../../controllers/contactsController");
 
 const contactsValidation = require("../../validations/contactsValidation");
 
-const {isBodyEmpty, isValidId} = require("../../middlewares/");
+const {isBodyEmpty, isValidId, authenticate} = require("../../middlewares/");
+router.use(authenticate);
 router.get("/", contactsController.listContacts);
 router.get("/:contactId", isValidId, contactsController.getContactById);
 router.post("/", isBodyEmpty, contactsValidation.validateAddContact, contactsController.addContact);
